@@ -1,0 +1,7 @@
+.custom-file-input:lang(it)~.custom-file-label::after {
+    content: "Sfoglia";
+  }
+.custom-file-input:focus ~ .custom-file-label {
+border-color: #80bdff;
+box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}

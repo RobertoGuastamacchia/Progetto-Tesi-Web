@@ -1,0 +1,68 @@
+<div class="h-100">
+  <div class="bg-white" style="height: 650px !important;">
+    <div class="p-3">
+      <div><h1><b>Terrorism Checker</b></h1></div>
+      <hr>
+    </div>
+    <div>
+      <div class="container mt-5">
+        <h5>Carica e analizza il tuo file.</h5>
+        <div class="form-group">
+          <!-- Campo di testo che mostra il nome del file selezionato -->
+          <div class="input-group">
+            <input
+              style="height:60px;cursor: pointer !important;"
+              type="text"
+              class="form-control"
+              id="browseBtn"
+              [value]="fileName" 
+              placeholder="Nessun file selezionato, Click per caricare"
+              readonly
+              (click)="selectFile()"
+            >
+            <div class="input-group-append">
+              <!-- Pulsante che apre la finestra di dialogo di selezione file -->
+              <button
+                style="height:60px"
+                class="btn btn-dark text-white rounded-0"
+                type="button"
+                [disabled]="filelength==0"
+              >
+                ANALIZZA
+              </button>
+            </div>
+          </div>
+          <!-- Vero input file, ma nascosto -->
+          <input
+            type="file"
+            #fileInput
+            (change)="onFileSelected($event)"
+            hidden
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-dark text-white" style="height: 362px !important;">
+    <div class="d-flex" style="width: 100%;justify-content: center;align-items: center;height: 100%;">
+      <div class="row w-100">
+        <div class="col-3 text-center">
+          <span style="font-size: 60px;"><b>0</b></span><br>
+          <span style="font-size: 30px;"><b>Elementi Controllati</b></span>
+        </div>
+        <div class="col-3 text-center">
+          <span style="font-size: 60px;"><b>0</b></span><br>
+          <span style="font-size: 30px;"><b>Elementi Positivi</b></span>
+        </div>
+        <div class="col-3 text-center">
+          <span style="font-size: 60px;"><b>0</b></span><br>
+          <span style="font-size: 30px;"><b>Elementi Negativi</b></span>
+        </div>
+        <div class="col-3 text-center">
+          <span style="font-size: 60px;"><b>0.0</b></span><br>
+          <span style="font-size: 30px;"><b>Rate</b></span>
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
