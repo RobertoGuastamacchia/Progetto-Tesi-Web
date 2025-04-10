@@ -1,5 +1,5 @@
 <div class="h-100">
-  <div class="bg-white" style="height: 650px !important;">
+  <div class="bg-white" style="height: 540px !important;">
     <div class="p-3">
       <div><h1><b>Terrorism Checker</b></h1></div>
       <hr>
@@ -27,6 +27,7 @@
                 class="btn btn-dark text-white rounded-0"
                 type="button"
                 [disabled]="filelength==0"
+                (click)="analyzeImage()"
               >
                 ANALIZZA
               </button>
@@ -43,7 +44,12 @@
       </div>
     </div>
   </div>
-  <div class="bg-dark text-white" style="height: 362px !important;">
+  <div class="bg-white">
+    <div class="footerbg w-100" style="height: 150px;">
+
+    </div>
+  </div>
+  <div class="bg-dark text-white" style="height: 322px !important;">
     <div class="d-flex" style="width: 100%;justify-content: center;align-items: center;height: 100%;">
       <div class="row w-100">
         <div class="col-3 text-center">
