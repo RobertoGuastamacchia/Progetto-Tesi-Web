@@ -1,5 +1,5 @@
 <div class="h-100">
-  <div class="bg-white" style="height: 540px !important;">
+  <div class="bg-white" style="min-height: 540px !important;">
     <div class="p-3">
       <div><h1><b>Terrorism Checker</b></h1></div>
       <hr>
@@ -41,6 +41,31 @@
             hidden
           >
         </div>
+        <div class="mt-5" style="margin-bottom: 100px;" id="resultDiv" *ngIf="viewResult">
+          <h3>Analisi</h3>
+          <hr>
+          <div class="row">
+            <div class="col-5" id="upldImageDiv">
+              <img
+                id="upldImage"
+                src="data:image/{{imgExt}};base64,{{b64Uimg}}"
+                alt="Uploaded Image"
+                class="img-fluid rounded mx-auto d-block"
+                style="max-width: 100%; max-height: 100%;"
+              >
+            </div>
+            <div class="col-2"></div>
+            <div class="col-5" id="anlzdImageDiv">
+              <img
+                id="anlzdImage"
+                src="data:image/{{imgExt}};base64,{{b64Aimg}}"
+                alt="Analyzed Image"
+                class="img-fluid rounded mx-auto d-block"
+                style="max-width: 100%; max-height: 100%;"
+              >
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -72,3 +97,4 @@
     </div>
   </div>  
 </div>
+<app-custom-loading [ngClass]="{'d-none': isLoading == false }" id="loader"></app-custom-loading>
