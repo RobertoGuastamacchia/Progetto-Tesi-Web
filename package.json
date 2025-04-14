@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "axios": "^1.8.4",
-    "bootstrap": "^5.3.5"
+    "bootstrap": "^5.3.5",
+    "ng-circle-progress": "^1.7.1"
   },
   "devDependencies": {
     "@types/bootstrap": "^5.2.10"

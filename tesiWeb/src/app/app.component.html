@@ -1,7 +1,9 @@
 <div class="h-100">
   <div class="bg-white" style="min-height: 540px !important;">
     <div class="p-3">
-      <div><h1><b>Terrorism Checker</b></h1></div>
+      <div>
+        <h1><b>Terrorism Checker</b></h1>
+      </div>
       <hr>
     </div>
     <div>
@@ -10,59 +12,76 @@
         <div class="form-group">
           <!-- Campo di testo che mostra il nome del file selezionato -->
           <div class="input-group">
-            <input
-              style="height:60px;cursor: pointer !important;"
-              type="text"
-              class="form-control"
-              id="browseBtn"
-              [value]="fileName" 
-              placeholder="Nessun file selezionato, Click per caricare"
-              readonly
-              (click)="selectFile()"
-            >
+            <input style="height:60px;cursor: pointer !important;" type="text" class="form-control" id="browseBtn"
+              [value]="fileName" placeholder="Nessun file selezionato, Click per caricare" readonly
+              (click)="selectFile()">
             <div class="input-group-append">
               <!-- Pulsante che apre la finestra di dialogo di selezione file -->
-              <button
-                style="height:60px"
-                class="btn btn-dark text-white rounded-0"
-                type="button"
-                [disabled]="filelength==0"
-                (click)="analyzeImage()"
-              >
+              <button style="height:60px" class="btn btn-dark text-white rounded-0" type="button"
+                [disabled]="filelength==0" (click)="analyzeImage()">
                 ANALIZZA
               </button>
             </div>
           </div>
           <!-- Vero input file, ma nascosto -->
-          <input
-            type="file"
-            #fileInput
-            (change)="onFileSelected($event)"
-            hidden
-          >
+          <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
         </div>
-        <div class="mt-5" style="margin-bottom: 100px;" id="resultDiv" *ngIf="viewResult">
+        <div class="mt-5" style="margin-bottom: 100px;" id="resultDiv" [hidden]="!viewResult">
           <h3>Analisi</h3>
+          <hr>
+          <div class="alert alert-success" role="alert" *ngIf="result=='No Terroristico'">
+            Non Terroristico
+          </div>
+          <div class="alert alert-warning" role="alert" *ngIf="result=='Ambiguo'">
+            Ambiguo
+          </div>
+          <div class="alert alert-danger" role="alert" *ngIf="result=='Terroristico'">
+            Terroristico
+          </div>
           <hr>
           <div class="row">
             <div class="col-5" id="upldImageDiv">
-              <img
-                id="upldImage"
-                src="data:image/{{imgExt}};base64,{{b64Uimg}}"
-                alt="Uploaded Image"
-                class="img-fluid rounded mx-auto d-block"
-                style="max-width: 100%; max-height: 100%;"
-              >
+              <img id="upldImage" src="data:image/{{imgExt}};base64,{{b64Uimg}}" alt="Uploaded Image"
+                class="img-fluid rounded mx-auto d-block" style="max-width: 100%; max-height: 100%;">
             </div>
             <div class="col-2"></div>
             <div class="col-5" id="anlzdImageDiv">
-              <img
-                id="anlzdImage"
-                src="data:image/{{imgExt}};base64,{{b64Aimg}}"
-                alt="Analyzed Image"
-                class="img-fluid rounded mx-auto d-block"
-                style="max-width: 100%; max-height: 100%;"
-              >
+              <img id="anlzdImage" src="data:image/{{imgExt}};base64,{{b64Aimg}}" alt="Analyzed Image"
+                class="img-fluid rounded mx-auto d-block" style="max-width: 100%; max-height: 100%;">
+            </div>
+            <div class="col-12">
+              <hr>
+            </div>
+            <div class="col-12 mt-5">
+              <div class="row">
+                <div class="col-4 " id="resultDiv1">
+                  <div class="d-flex justify-content-center align-items-center text-center" style="height: 100%;">
+                    <div style="height: 300px; width: 300px;  background-color: #c75857; border-width: 15px !important; border-color: black !important"
+                      class="p-3 rounded-circle border text-white d-flex justify-content-center align-items-center flex-column">
+                      <span style="font-size: 40px;"><b>{{simboli}}/{{simbolitotal}}</b></span>
+                      <h4><b>Simboli terroristici</b></h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4 " id="resultDiv1">
+                  <div class="d-flex justify-content-center align-items-center text-center" style="height: 100%;">
+                    <div style="height: 300px; width: 300px; background-color: #c75857; border-width: 15px !important; border-color: black !important"
+                      class="p-3 rounded-circle border text-white d-flex justify-content-center align-items-center flex-column">
+                      <span style="font-size: 40px;"><b>{{persone}}/{{personetotal}}</b></span>
+                      <h4><b>Persone terroristiche</b></h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4 " id="resultDiv1">
+                  <div class="d-flex justify-content-center align-items-center text-center" style="height: 100%;">
+                    <div style="height: 300px; width: 300px; background-color: #c75857; border-width: 15px !important; border-color: black !important"
+                      class="p-3 rounded-circle border text-white d-flex justify-content-center align-items-center flex-column">
+                      <span style="font-size: 40px;"><b>{{armi}}/{{armitotal}}</b></span>
+                      <h4><b>Punteggio Armi</b></h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -95,6 +114,6 @@
         </div>
       </div>
     </div>
-  </div>  
+  </div>
 </div>
 <app-custom-loading [ngClass]="{'d-none': isLoading == false }" id="loader"></app-custom-loading>

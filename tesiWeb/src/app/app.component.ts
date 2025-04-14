@@ -1,21 +1,30 @@
 import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { Services } from '../services/services';
 import { CustomLoadingComponent } from './custom-loading/custom-loading.component';
 import { CommonModule } from '@angular/common';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,CustomLoadingComponent,CommonModule],
+  imports: [CustomLoadingComponent,CommonModule],
   templateUrl: './app.component.html',
+  standalone: true,
   styleUrl: './app.component.css'
 })
+
 export class AppComponent {
   title = 'tesiWeb'
   isLoading: boolean = false;
   b64Uimg: string = "";
   b64Aimg: string = "";
   imgExt: string = "";
+  armi:string = "0";
+  armitotal:string = "0";
+  persone:number = 0;
+  personetotal:number = 0;
+  simboli:number = 0;
+  simbolitotal:number = 0;
+  result: string = "";
   viewResult: boolean = false;
   constructor(private cd: ChangeDetectorRef) { }
 
@@ -67,7 +76,14 @@ export class AppComponent {
           .then((response) => {
             console.log(response);
             context.b64Aimg = response.result.analyzedImage;
-            context.endLoading();            
+            context.endLoading();
+            context.armi = response.result.context.weapon_scores.terrorist.toFixed(2);            
+            context.armitotal = (parseFloat(context.armi)+response.result.context.weapon_scores.no_terrorist).toFixed(2);            
+            context.persone = response.result.context.count_terrorist_person;            
+            context.personetotal = context.persone+response.result.context.count_no_terrorist_person;       
+            context.simboli = response.result.context.count_terrorist_symbol;            
+            context.simbolitotal = context.simboli+response.result.context.count_no_terrorist_symbol;   
+            context.result = response.result.context.context
             this.viewResult = true;
           })
       };
