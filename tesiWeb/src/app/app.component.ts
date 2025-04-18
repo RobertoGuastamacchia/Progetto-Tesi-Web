@@ -20,10 +20,10 @@ export class AppComponent {
   imgExt: string = "";
   armi:string = "0";
   armitotal:string = "0";
-  persone:number = 0;
-  personetotal:number = 0;
-  simboli:number = 0;
-  simbolitotal:number = 0;
+  persone:string = "0";
+  personetotal:string = "0";
+  simboli:string = "0";
+  simbolitotal:string = "0";
   result: string = "";
   viewResult: boolean = false;
   constructor(private cd: ChangeDetectorRef) { }
@@ -79,10 +79,10 @@ export class AppComponent {
             context.endLoading();
             context.armi = response.result.context.weapon_scores.terrorist.toFixed(2);            
             context.armitotal = (parseFloat(context.armi)+response.result.context.weapon_scores.no_terrorist).toFixed(2);            
-            context.persone = response.result.context.count_terrorist_person;            
-            context.personetotal = context.persone+response.result.context.count_no_terrorist_person;       
-            context.simboli = response.result.context.count_terrorist_symbol;            
-            context.simbolitotal = context.simboli+response.result.context.count_no_terrorist_symbol;   
+            context.persone = response.result.context.person_scores.terrorist.toFixed(2);            
+            context.personetotal = (parseFloat(context.persone)+response.result.context.person_scores.no_terrorist).toFixed(2);       
+            context.simboli = response.result.context.symbol_scores.terrorist.toFixed(2);            
+            context.simbolitotal = (parseFloat(context.simboli)+response.result.context.symbol_scores.no_terrorist).toFixed(2);   
             context.result = response.result.context.context
             this.viewResult = true;
           })
