@@ -2,11 +2,12 @@ import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/co
 import { Services } from '../services/services';
 import { CustomLoadingComponent } from './custom-loading/custom-loading.component';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  imports: [CustomLoadingComponent,CommonModule],
+  imports: [CustomLoadingComponent,CommonModule,FormsModule],
   templateUrl: './app.component.html',
   standalone: true,
   styleUrl: './app.component.css'
@@ -25,7 +26,10 @@ export class AppComponent {
   simboli:string = "0";
   simbolitotal:string = "0";
   result: string = "";
+  noteFeedback:string = "";
+  esitoFeedback:string = "";
   viewResult: boolean = false;
+  feedbackSended: boolean = false;
   constructor(private cd: ChangeDetectorRef) { }
 
   fileName: string = '';  
@@ -57,7 +61,10 @@ export class AppComponent {
     this.fileInput.nativeElement.click();
   }
 
-  analyzeImage() {
+  analyzeImage() {    
+    this.noteFeedback = "";
+    this.esitoFeedback = "";
+    this.feedbackSended = false
     this.viewResult = false;
     let context = this;
     let base64String = "";
@@ -88,6 +95,42 @@ export class AppComponent {
           })
       };
       reader.readAsDataURL(file);
+    }
+  }
+
+  sendFeedback(){
+    if(!this.noteFeedback){
+      document.getElementById("notefeedbackTextArea")?.classList.add("is-invalid")
+    }
+    else{
+      document.getElementById("notefeedbackTextArea")?.classList.remove("is-invalid")
+    }
+    if(!this.esitoFeedback){
+      document.getElementById("esitoFeedback")?.classList.add("is-invalid")
+    }
+    else{
+      document.getElementById("esitoFeedback")?.classList.remove("is-invalid")
+    }
+
+    if(this.esitoFeedback && this.noteFeedback){
+      let obj:any={}
+      obj.filename = this.fileName
+      obj.esito = this.result
+      obj.noteFeedback = this.noteFeedback
+      obj.esitoFeedback = this.esitoFeedback
+      obj.image = this.b64Uimg
+      obj.imageprocessed = this.b64Aimg
+      this.feedbackSended=true;
+      Services.sendFeedback(obj)
+        .then((response) => {
+          console.log(response);
+          this.noteFeedback = "";
+          this.esitoFeedback = "";
+          this.feedbackSended=true;
+        })
+        .catch((error) => {
+          console.error("Error sending feedback:", error);
+        });
     }
   }
 }
