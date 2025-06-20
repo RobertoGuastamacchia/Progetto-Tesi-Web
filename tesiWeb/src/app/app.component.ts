@@ -29,6 +29,7 @@ export class AppComponent {
   noteFeedback:string = "";
   esitoFeedback:string = "";
   viewResult: boolean = false;
+  imageId: number|null = null
   feedbackSended: boolean = false;
   constructor(private cd: ChangeDetectorRef) { }
 
@@ -62,6 +63,7 @@ export class AppComponent {
   }
 
   analyzeImage() {    
+    this.imageId = null
     this.noteFeedback = "";
     this.esitoFeedback = "";
     this.feedbackSended = false
@@ -81,9 +83,7 @@ export class AppComponent {
         context.b64Uimg = base64String;
         Services.analyzeImage(base64String, filename)
           .then((response) => {
-            console.log(response);
             context.b64Aimg = response.result.analyzedImage;
-            context.endLoading();
             context.armi = response.result.context.weapon_scores.terrorist.toFixed(2);            
             context.armitotal = (parseFloat(context.armi)+response.result.context.weapon_scores.no_terrorist).toFixed(2);            
             context.persone = response.result.context.person_scores.terrorist.toFixed(2);            
@@ -91,6 +91,15 @@ export class AppComponent {
             context.simboli = response.result.context.symbol_scores.terrorist.toFixed(2);            
             context.simbolitotal = (parseFloat(context.simboli)+response.result.context.symbol_scores.no_terrorist).toFixed(2);   
             context.result = (response.result.context.context as string).toLowerCase()
+            let obj:any={}
+            obj.filename = this.fileName
+            obj.esito = this.result
+            obj.image = this.b64Uimg
+            obj.imageprocessed = this.b64Aimg
+            Services.seveImageProcessed(obj).then(function(resp:any){
+              context.imageId = resp.id
+            })
+            context.endLoading();
             this.viewResult = true;
           })
       };
@@ -98,7 +107,7 @@ export class AppComponent {
     }
   }
 
-  sendFeedback(){
+  saveFeedback(){
     if(!this.noteFeedback){
       document.getElementById("notefeedbackTextArea")?.classList.add("is-invalid")
     }
@@ -114,16 +123,12 @@ export class AppComponent {
 
     if(this.esitoFeedback && this.noteFeedback){
       let obj:any={}
-      obj.filename = this.fileName
-      obj.esito = this.result
       obj.noteFeedback = this.noteFeedback
       obj.esitoFeedback = this.esitoFeedback
-      obj.image = this.b64Uimg
-      obj.imageprocessed = this.b64Aimg
+      obj.imageId = this.imageId
       this.feedbackSended=true;
-      Services.sendFeedback(obj)
+      Services.saveFeedback(obj)
         .then((response) => {
-          console.log(response);
           this.noteFeedback = "";
           this.esitoFeedback = "";
           this.feedbackSended=true;

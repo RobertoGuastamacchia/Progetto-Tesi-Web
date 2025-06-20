@@ -21,7 +21,22 @@ export class Services {
         return await response.data;
     }
 
-    public static async sendFeedback(obj: any): Promise<any> {
+    public static async seveImageProcessed(obj: any): Promise<any> {
+
+        const response = await axios.post(this.urlApi+"imageProgessed", obj, {
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        });
+
+        if (!response.status) {
+            throw new Error("Network response was not ok");
+        }      
+        return await response.data;
+    }
+
+    public static async saveFeedback(obj: any): Promise<any> {
 
         const response = await axios.post(this.urlApi+"saveFeedback", obj, {
             headers: {
