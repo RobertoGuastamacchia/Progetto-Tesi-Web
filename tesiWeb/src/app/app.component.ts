@@ -90,7 +90,7 @@ export class AppComponent {
             context.personetotal = (parseFloat(context.persone)+response.result.context.person_scores.no_terrorist).toFixed(2);       
             context.simboli = response.result.context.symbol_scores.terrorist.toFixed(2);            
             context.simbolitotal = (parseFloat(context.simboli)+response.result.context.symbol_scores.no_terrorist).toFixed(2);   
-            context.result = response.result.context.context
+            context.result = (response.result.context.context as string).toLowerCase()
             this.viewResult = true;
           })
       };
